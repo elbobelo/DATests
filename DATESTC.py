@@ -1,29 +1,31 @@
-def read_hex_values(sprite_number):
-    # Open the NES ROM in binary mode
-    with open('MK2.rom', 'rb') as f:
-        # Seek to the position of HEX value 1
-        f.seek(int('10388', 16) + sprite_number)
-        # Read and convert to string
-        hex_value_1 = f.read(1).hex()
-        print(hex_value_1)
+import tkinter as tk
 
-        # Seek to the position of HEX value 2
-        f.seek(int('102FE', 16) + sprite_number)
-        # Read and convert to string
-        hex_value_2 = f.read(1).hex()
-        print(hex_value_2)
+# Your string of pixel colors
+pixels = '0001122200122222011112221222212201111112001031310110313101333131'
 
-        # Concatenate the two hexadecimal strings
-        result = hex_value_1 + hex_value_2
+# Create a new Tkinter window
+window = tk.Tk()
 
-    # Treat the result as a hexadecimal value, convert to integer, add 0x2010, and convert back to hexadecimal string
-    final_result = hex(int(result, 16) + 0x8010)[2:]
+# Create a new 8x8 canvas
+canvas = tk.Canvas(window, width=8, height=8)
+canvas.pack()
 
-    return final_result
+# Define the colors to use for each pixel value
+colors = {
+    '0': 'red',
+    '1': 'green',
+    '2': 'blue',
+    '3': 'yellow'
+}
 
-# Ensure the sprite number is within the valid range
-sprite_number = int(input("Enter a sprite number (0-137): "))
-if sprite_number < 0 or sprite_number > 137:
-    print("Invalid sprite number. Please enter a number between 0 and 137.")
-else:
-    print(read_hex_values(sprite_number))
+# Loop over each character in the string
+for i, pixel in enumerate(pixels):
+    # Calculate the row and column of the current pixel
+    row = i // 8
+    col = i % 8
+
+    # Draw a small rectangle on the canvas at the current position, using the color corresponding to the current pixel value
+    canvas.create_rectangle(col, row, col+1, row+1, fill=colors[pixel])
+
+# Start the Tkinter event loop
+window.mainloop()

@@ -1,10 +1,7 @@
 def decompress_tile(group_a, group_b):
     decompressed_tile = ''
     for hex_a, hex_b in zip(group_a, group_b):
-        bin_a = format(hex_a, '08b')
-        bin_b = format(hex_b, '08b')
-        for bit_a, bit_b in zip(bin_a, bin_b):
-            decompressed_tile += ''.join(['0', '2', '1', '3'][2 * int(bit_a) + int(bit_b)])
+        decompressed_tile += str(2 * int(format(hex_b, '08b')) + int(format(hex_a, '08b'))).zfill(8)
     return decompressed_tile
 
 
@@ -30,8 +27,11 @@ def compress_tile(decompressed_tile):
     return group_a, group_b
 
 # Testing the code
-group_a = [0x33, 0x44, 0x55, 0x66]
-group_b = [0x77, 0x88, 0x99, 0xAA]
+group_a = [0x18, 0x20, 0x78, 0x84, 0x7E, 0x2F, 0x6F, 0x7F]
+group_b = [0x07, 0x1F, 0x07, 0x7B, 0x01, 0x0A, 0x0A, 0x3A]
+
+print(f"group_a = {group_a}")
+print(f"group_b = {group_b}")
 decompressed_tile = decompress_tile(group_a, group_b)
 print(decompressed_tile)
 compressed_tile_a, compressed_tile_b = compress_tile(decompressed_tile)

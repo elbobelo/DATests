@@ -1,15 +1,15 @@
 rom_name = 'MK2.rom'
 header = 0x10
 properties = {
+    'offset': {
+        'rom_bank': 0x20000,
+        'base_low': 0x2B61E,
+        'base_high': 0x2B537
+    },
     'pixel': {
         'rom_bank': 0x08000,
         'base_low': 0x10388,
         'base_high': 0x102FE
-    },
-    'tile': {
-        'rom_bank': 0x20000,
-        'base_low': 0x2B61E,
-        'base_high': 0x2B537
     }
 }
 
@@ -35,7 +35,7 @@ try:
         if sprite_number < 0 or sprite_number > 137:
             print("Invalid sprite number. Please enter a number between 0 and 137.")
         else:
-            print("tile properties: ", hex(get_address(properties['tile'], sprite_number)))
-            print("sprite pixels: ", hex(get_address(properties['pixel'], sprite_number)))
+            print("offset address: ", hex(get_address(properties['offset'], sprite_number)))
+            print("pixel address: ", hex(get_address(properties['pixel'], sprite_number)))
 except FileNotFoundError:
     print("Error: File not found.")
